@@ -1,7 +1,7 @@
 <template>
   <v-app id="page">
     <v-main >
-      <v-container >
+      <v-container  fluid>
         <v-card class="d-flex mb-2 mt-2" flat tile>
           <h2 class="mr-auto" to="/" >Reward Core</h2>
           <v-btn
