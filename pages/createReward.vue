@@ -1,40 +1,36 @@
 <template>
-  <v-row >
+  <v-row>
     <v-col class="mb-8" lg="3" xs="6" sm="6">
       <!-- Create Reward -->
-     <CreateReward/>
+      <CreateReward />
     </v-col>
-    <v-col class="mb-8" lg="5" xs="6" sm="6">
+    <v-col class="mb-8" lg="6" xs="6" sm="6">
       <!-- Image Collection -->
-    <ImageCollection/>
-    <!-- System Event  -->
-    <SystemEvent/>
+      <ImageCollection />
+      <!-- System Event  -->
+      <SystemEvent />
     </v-col>
-    <v-col class="mb-8" lg="3" xs="6" sm="6">
-      <v-card flat class="banner-2 justify-center text-center" max-width="344">
-        <h2>View Reward Card</h2>
-      </v-card>
+    <v-col  lg="3" xs="6" sm="6">
+      <ViewRewardCard />
     </v-col>
   </v-row>
 </template>
 
 <script>
-import CreateReward from '~/components/CreateReward';
-import ImageCollection from '~/components/ImageCollection';
-import SystemEvent from '~/components/SystemEvent';
+import CreateReward from '~/components/CreateReward'
+import ImageCollection from '~/components/ImageCollection'
+import SystemEvent from '~/components/SystemEvent'
+import ViewRewardCard from '~/components/ViewRewardCard'
 
 export default {
-  components : {
+  components: {
+    ViewRewardCard,
     SystemEvent,
     CreateReward,
-    ImageCollection
+    ImageCollection,
   },
   data() {
-    return {
-     
-    }
+    return {}
   },
 }
 </script>
-
-

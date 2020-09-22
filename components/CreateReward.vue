@@ -15,7 +15,6 @@
           v-model="active"
           height="20"
           color="orange"
-          class="inputClass"
         ></v-switch>
       </v-col>
     </v-row>
@@ -25,10 +24,12 @@
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Title </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
+        
           label="title"
-          height="40"
-          class="inputClass"
+          height="35"
+          class="inputClass "
           :dense="true"
+          flat
           solo
         ></v-text-field>
       </v-col>
@@ -39,9 +40,10 @@
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
           label="Sub title"
-          height="40"
+          height="35"
           class="inputClass"
           :dense="true"
+           flat
           solo
         ></v-text-field>
       </v-col>
@@ -51,10 +53,11 @@
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Description </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6" class="mt-5">
         <v-textarea
-          height="60"
+          height="80"
           no-resize="false"
           solo
-          name="input-5-7"
+           
+       
           label="description"
         ></v-textarea>
       </v-col>
@@ -65,9 +68,9 @@
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
           label="title"
-          height="40"
+          height="35"
           class="inputClass"
-          :dense="true"
+           flat
           solo
         ></v-text-field>
       </v-col>
@@ -78,7 +81,8 @@
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-select
           :items="actionType"
-          height="30"
+          height="25"
+           flat
           class="inputClass"
           label="Please select one"
           solo
@@ -93,7 +97,7 @@
           label="experience points"
           height="40"
           class="inputClass"
-          :dense="true"
+           flat
           solo
         ></v-text-field>
       </v-col>
@@ -106,7 +110,6 @@
           v-model="prize"
           height="20"
           color="orange"
-          class="inputClass"
         ></v-switch>
       </v-col>
     </v-row>
@@ -135,7 +138,8 @@ export default {
   height: 1px;
 }
 .inputClass {
-  height: 40px;
+  height: 50px;
+  border:1px solid #dddddd;
 }
 .createReward{
     background-color: #FFFF;
