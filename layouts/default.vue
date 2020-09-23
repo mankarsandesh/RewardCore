@@ -1,18 +1,20 @@
 <template>
   <v-app id="page">
-    <v-main >
-      <v-container  fluid>
-        <v-card class="d-flex mb-2 mt-2" flat tile>
+  
+      <v-container  fluid class="pa-0"  >
+        <v-card class="d-flex  pa-5" flat tile>
           <h2 class="mr-auto" to="/" >Reward Core</h2>
           <v-btn
-            class="ml-auto"
+            class="ml-auto primary"
+            small
             to="/createReward"
             v-if="$nuxt.$route.path == '/'"
           >
-            Add Reward</v-btn
+            + Add Reward</v-btn
           >
           <v-btn
-            class="ml-auto"
+            class="ml-auto primary"
+            small
             to="/"
             v-if="$nuxt.$route.path == '/createReward'"
           >
@@ -21,7 +23,7 @@
         </v-card>
         <nuxt />
       </v-container>
-    </v-main>
+    
   </v-app>
 </template>
 

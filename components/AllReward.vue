@@ -1,8 +1,8 @@
 <template>
-  <v-simple-table>
+  <v-simple-table class="pa-5">
     <template v-slot:default>
-      <thead>
-        <tr>
+      <thead >
+        <tr class="header">
           <th class="text-left">Image</th>
           <th class="text-left">Title</th>
           <th class="text-left">Prize</th>
@@ -75,3 +75,9 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.header{
+  background-color: #dddddd;
+  height: 25px;
+}
+</style>

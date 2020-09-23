@@ -1,16 +1,16 @@
 <template>
-  <v-row>
-    <v-col cclass="pa-0" lg="3" xs="6" sm="6">
+  <v-row  >
+    <v-col class="pa-2" lg="3" xs="6" sm="6">
       <!-- Create Reward -->
       <CreateReward />
     </v-col>
-    <v-col lg="6" xs="6" sm="6" class="pa-0">
+    <v-col lg="6" xs="6" sm="6" class="pa-1">
       <!-- Image Collection -->
       <ImageCollection />
       <!-- System Event  -->
       <!-- <SystemEvent /> -->
     </v-col>
-    <v-col  lg="3" xs="6" sm="6" class="pa-0">
+    <v-col  lg="3" xs="6" sm="6" class="pa-1">
       <ViewRewardCard />
     </v-col>
   </v-row>

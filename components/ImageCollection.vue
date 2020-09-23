@@ -1,17 +1,18 @@
 <template>
 <v-flex class="imageCollection pa-4" style="height: 100%;">
-  <h3>Image Collection</h3>
-      <v-card class="mx-auto mt-3">
+  <h3 class="mb-3">Image Collection</h3>
+  <hr class="border"/>
+      <v-card class="mx-auto mt-3" >
         <v-card-text>
           <v-row class="d-flex align-center pa-4">
             <h4 class="mr-auto">Power Gems</h4>
 
-            <v-btn class="ml-auto" small>Change Collection</v-btn>
+            <v-btn class="ml-auto primary" small >Change Collection</v-btn>
           </v-row>
 
           <v-row class="align-center pa-1">
             <v-col cols="3" v-for="n in 12" :key="n">
-              <v-card outlined="false" color="#F3F3F3" min-height="130px">
+              <v-card :outlined="false" color="#F3F3F3" outlined min-height="130px">
                 <v-card-text class="justify-center text-center">
                   <v-img
                     class="rounded-circle justify-center"
@@ -42,5 +43,9 @@ export default {
 <style  scoped>
 .imageCollection{
     background-color: #F3F3F3;
+}
+.border{
+  border: 0.3px solid #e8e8e8;
+  height: 1px;
 }
 </style>

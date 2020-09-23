@@ -2,11 +2,11 @@
   <v-container fill-height class="rewardCard" >
     <v-col cols="12" >
       <v-row align="center" justify="center" >
-        <div
+        <div 
           v-bind:class="flipped ? 'flip-container flipped' : 'flip-container'"
         >
-          <div class="flipper">
-            <div class="front">
+          <div class="flipper" >
+            <v-card class="front" elevation="4">
               <slot name="front">
                 <v-flex class="pa-2" v-on:click="flipped = true">
                   <v-img
@@ -34,8 +34,8 @@
                   Text Prize
                 </v-flex>
               </slot>
-            </div>
-            <div class="back">
+            </v-card>
+            <v-card class="back"  elevation="4">
               <v-flex class="pa-2" v-on:click="flipped = false">
                 <span class="float-left">Date</span>
                 <span class="float-right">
@@ -54,7 +54,7 @@
               <v-flex class="rewardPrizeDetails justify-center text-center">
                 Testing Description
               </v-flex>
-            </div>
+            </v-card>
           </div>
         </div>
       </v-row>
