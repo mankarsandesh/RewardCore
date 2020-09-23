@@ -1,38 +1,59 @@
 <template>
-  <v-container fill-height class="rewardCard">
-    <v-col cols="12">
-      <v-row align="center" justify="center" style="height: 600px">
-        <div style="width: 250px">
-          <!-- <FlipCard>
-            <template slot="front">
-              <span>Hey loser</span>
-            </template>
-            <template slot="back">
-              <span>Thought u could get rid of me loser?</span>
-            </template>
-          </FlipCard> -->
+  <v-container fill-height class="rewardCard" >
+    <v-col cols="12" >
+      <v-row align="center" justify="center" >
+        <div
+          v-bind:class="flipped ? 'flip-container flipped' : 'flip-container'"
+        >
+          <div class="flipper">
+            <div class="front">
+              <slot name="front">
+                <v-flex class="pa-2" v-on:click="flipped = true">
+                  <v-img
+                    class="rounded-circle justify-center ml-auto"
+                    height="20"
+                    width="20"
+                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                  />
+                </v-flex>
+                <v-card-text class="justify-center text-center">
+                  <v-img
+                    class="rounded-circle justify-center"
+                    style="margin: 0 auto"
+                    height="20"
+                    width="20"
+                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                  />
+                  <h4 class="mt-5 rewardTitle">Testing Reward</h4>
+                  <v-flex class="mt-5 rewardSubtitle">
+                    Testing Subtitle
+                  </v-flex>
+                  <v-flex class="mt-1 rewardPoints"> 100 Points</v-flex>
+                </v-card-text>
+                <v-flex class="rewardPrize pa-3 text-center">
+                  Text Prize
+                </v-flex>
+              </slot>
+            </div>
+            <div class="back">
+              <v-flex class="pa-2" v-on:click="flipped = false">
+                <span class="float-left">Date</span>
+                <span class="float-right">
+                  <v-img
+                    class="rounded-circle"
+                    height="20"
+                    width="20"
+                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                  />
+                </span>
+              </v-flex>
+              <v-flex class="mt-3 rewardDescription"
+                >This is Description</v-flex
+              >
 
-          <div
-            v-bind:class="flipped ? 'flip-container flipped' : 'flip-container'"
-          >
-            <div class="flipper "  >
-              <div class="front pa-5">
-                <v-icon class="frontFlipBtn" v-on:click="flipped = true">
-                  front
-                </v-icon>
-
-                <slot name="front">
-                  <v-layout text-center>
-                    <h1>Testing</h1>
-                  </v-layout>
-                </slot>
-              </div>
-              <div class="back pa-5">
-                <slot name="back"></slot>
-                <v-icon class="backFlipBtn" v-on:click="flipped = false">
-                  back
-                </v-icon>
-              </div>
+              <v-flex class="rewardPrizeDetails justify-center text-center">
+                Testing Description
+              </v-flex>
             </div>
           </div>
         </div>
@@ -48,23 +69,41 @@ export default {
   data() {
     return {
       flipped: false,
-      front: {
-        title: 'Daily Conversion Value',
-        subtitle: [3, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
-      },
-      back: {
-        title: 'Monthly Summary',
-        message:
-          'Your average daily conversion value for this month is <b>50.4$</b>. It is below the average of the last six months.',
-      },
     }
   },
 }
 </script>
 <style scoped>
+.rewardDescription {
+  height: 45%;
+  padding-top: 50px;
+  text-align: center;
+  font-size: 14px;
+}
+.rewardPrizeDetails {
+  height: 45%;
+  background-color: #524dc0;
+  color: #fff;
+  font-size: 14px;
+  padding-top: 50px;
+}
+.rewardPrize {
+  color: #fff;
+  font-size: 14px;
+  background-color: #524dc0;
+}
+.rewardTitle {
+  font-size: 14px;
+}
+.rewardSubtitle {
+  font-size: 14px;
+}
+.rewardPoints {
+  color: green;
+}
 .rewardCard {
-  height: auto;
-  background-color: #f3f3f3;
+height: 100%;
+  background-color: #C2C2C3;
 }
 i.frontFlipBtn,
 i.backFlipBtn {
@@ -90,14 +129,17 @@ i.backFlipBtn {
   min-height: 120px;
 }
 .flipper {
+  width: 250px;
   -moz-transform: perspective(1000px);
   -moz-transform-style: preserve-3d;
   position: relative;
 }
 .front,
 .back {
-    
-  border: 1px solid blue;
+  cursor: pointer;
+  height: 240px;
+  background-color: #fff;
+  /* border: 1px solid blue; */
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -o-backface-visibility: hidden;

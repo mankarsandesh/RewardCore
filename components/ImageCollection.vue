@@ -1,5 +1,5 @@
 <template>
-<v-flex class="imageCollection pa-4">
+<v-flex class="imageCollection pa-4" style="height: 100%;">
   <h3>Image Collection</h3>
       <v-card class="mx-auto mt-3">
         <v-card-text>

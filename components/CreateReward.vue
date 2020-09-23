@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="" style="height:100%;">
     <v-row class="createReward d-flex align-center pa-4">
       <h4 class="mr-auto">Create Reward</h4>
 
