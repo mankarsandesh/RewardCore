@@ -1,24 +1,27 @@
 <template>
   <v-simple-table class="pa-5">
     <template v-slot:default>
-      <thead >
+      <thead>
         <tr class="header">
-          <th class="text-left">Image</th>
-          <th class="text-left">Title</th>
-          <th class="text-left">Prize</th>
-          <th class="text-left">ExP</th>
-          <th class="text-left">Status</th>
-          <th class="text-left"></th>
+          <th width="10%" class="text-left">Image</th>
+          <th width="50%" class="text-left">Title</th>
+          <th width="10%" class="text-left">Prize</th>
+          <th width="10%" class="text-left">ExP</th>
+          <th width="10%" class="text-left">Status</th>
+          <th width="10%" class="text-left"></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in desserts" :key="item.name">
-          <td>{{ item.name }}</td>
-          <td>{{ item.calories }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.calories }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.calories }}</td>
+        <tr v-for="item in rewardData" :key="item.reward_id" class="record">
+          <td><img :src="item.media.url" width="20px" /></td>
+          <td>{{ item.title }}</td>
+          <td>{{ item.prize }}</td>
+          <td>{{ item.experience }}</td>
+          <td>{{ item.active }}</td>
+          <td>
+            <v-btn>Edit</v-btn>
+            <v-btn>Delete</v-btn>
+          </td>
         </tr>
       </tbody>
     </template>
@@ -26,58 +29,31 @@
 </template>
 
 <script>
+import config from '~/config/config.global'
+
 export default {
   data() {
     return {
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-        },
-      ],
+      rewardData: [],
     }
+  },
+  created() {
+    this.viewAllReward()
+  },
+  methods: {
+    async viewAllReward() {
+      const res = await this.$axios.get(config.rewardCustomer.url)
+      this.rewardData = res.data
+    },
   },
 }
 </script>
 <style lang="scss" scoped>
-.header{
+.header {
   background-color: #dddddd;
-  height: 25px;
+  height: 25px; 
+}
+.record{
+  padding: 10px;
 }
 </style>

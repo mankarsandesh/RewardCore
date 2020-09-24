@@ -49,7 +49,7 @@
       <v-col cols="6" lg="9" xs="6" sm="6" class="mt-5">
         <v-textarea
           height="80"
-          no-resize="false"
+          :no-resize="false"
           solo
           label="description"
         ></v-textarea>
