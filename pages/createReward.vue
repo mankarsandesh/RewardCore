@@ -8,7 +8,7 @@
       <!-- Image Collection -->
       <ImageCollection />
       <!-- System Event  -->
-      <!-- <SystemEvent /> -->
+      <SystemEvent />
     </v-col>
     <v-col  lg="3" xs="6" sm="6" class="pa-1">
       <ViewRewardCard />

@@ -100,8 +100,7 @@ export default {
     async clickImageCollection(imageType,categoryName) {
       const res = await this.$axios.get(
         config.rewardMedia.url + '/' + imageType
-      )
-      console.log(res, 'Data')
+      );    
       this.categoryName = categoryName;
       this.showCategory = true;
       this.categoryImageCollection = res.data
