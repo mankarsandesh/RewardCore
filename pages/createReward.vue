@@ -1,16 +1,19 @@
 <template>
-  <v-row  >
+  <v-row>
     <v-col class="pa-2" lg="3" xs="6" sm="6">
       <!-- Create Reward -->
-      <CreateReward />
+      <CreateReward
+        @collectionSearch="closeCollection"
+        @systemEvent="closeEventSystem"
+      />
     </v-col>
     <v-col lg="6" xs="6" sm="6" class="pa-1">
       <!-- Image Collection -->
-      <ImageCollection />
+      <ImageCollection v-if="collectionSearch" />
       <!-- System Event  -->
-      <SystemEvent />
+      <SystemEvent v-if="systemEvent" />
     </v-col>
-    <v-col  lg="3" xs="6" sm="6" class="pa-1">
+    <v-col lg="3" xs="6" sm="6" class="pa-1">
       <ViewRewardCard />
     </v-col>
   </v-row>
@@ -30,7 +33,20 @@ export default {
     ImageCollection,
   },
   data() {
-    return {}
+    return {
+      collectionSearch: false,
+      systemEvent: false,
+    }
+  },
+  methods: {
+    closeCollection() {      
+      this.systemEvent =  false;
+      this.collectionSearch = true;
+    },
+    closeEventSystem(){      
+        this.collectionSearch = false;
+        this.systemEvent =  true;
+    }
   },
 }
 </script>

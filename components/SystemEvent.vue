@@ -4,7 +4,7 @@
     <v-card class="mt-2">
       <v-list>
         <v-list-item-group v-model="model">
-          <v-list-item  v-for="item in allEvent"  :key="item.id">
+          <v-list-item  v-for="item in allEvent" @click="systemEvent(item)"  :key="item.id">
             <v-list-item-content>
               <v-list-item-title
                 v-text="item.title"
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import config from '~/config/config.global'
 export default {
   data() {
@@ -32,11 +33,16 @@ export default {
     this.viewAllevent();
   },
   methods: {
+      ...mapActions('store', ['setSystemEvent']),
     async viewAllevent() {
       const res = await this.$axios.get(config.rewardEvent.url)
       this.allEvent = res.data;
       console.log(res.data);
     },
+    systemEvent(eventData){
+      console.log(eventData);
+      this.setSystemEvent(eventData);
+    }
   },
 }
 </script>

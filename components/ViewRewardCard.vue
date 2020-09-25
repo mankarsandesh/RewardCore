@@ -11,18 +11,18 @@
                 <v-flex class="pa-2" v-on:click="flipped = true">
                   <v-img
                     class="rounded-circle justify-center ml-auto"
-                    height="20"
-                    width="20"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    height="30"
+                    width="30"
+                    :src="GetMediaCollectionData.mediaImage"
                   />
                 </v-flex>
                 <v-card-text class="justify-center text-center">
                   <v-img
                     class="rounded-circle justify-center"
                     style="margin: 0 auto"
-                    height="20"
-                    width="20"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    height="40"
+                    width="40"
+                  :src="GetMediaCollectionData.mediaImage"
                   />
                   <h4 class="mt-5 rewardTitle">Testing Reward</h4>
                   <v-flex class="mt-5 rewardSubtitle">
@@ -41,9 +41,9 @@
                 <span class="float-right">
                   <v-img
                     class="rounded-circle"
-                    height="20"
-                    width="20"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    height="30"
+                    width="30"
+                   :src="GetMediaCollectionData.mediaImage"
                   />
                 </span>
               </v-flex>
@@ -63,13 +63,16 @@
 </template>
 
 <script>
-// import FlipCard from 'vue-info-card'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   components: {},
   data() {
     return {
       flipped: false,
     }
+  }, 
+   computed: {
+    ...mapGetters('store', ['GetMediaCollectionData', 'GetSystemEvent']),
   },
 }
 </script>

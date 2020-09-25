@@ -3,7 +3,9 @@
     <v-row class="createReward d-flex align-center pa-4">
       <h4 class="mr-auto">Create Reward</h4>
 
-      <v-btn class="ml-auto text-white primary" small>Create</v-btn>
+      <v-btn class="ml-auto text-white primary" small :disabled="!createReward"
+        >Create</v-btn
+      >
     </v-row>
 
     <hr class="borderMain" />
@@ -11,7 +13,7 @@
     <v-row class="align-center">
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Active </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
-        <v-switch v-model="active" height="0" color="primary"></v-switch>
+        <v-switch v-model="rewardStatus" height="0" color="primary"></v-switch>
       </v-col>
     </v-row>
 
@@ -20,6 +22,7 @@
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Title </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
+          v-model="rewardTitle"
           label="title"
           height="35"
           class="inputClass"
@@ -34,6 +37,7 @@
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Sub Title </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
+          v-model="rewardSubTitle"
           label="Sub title"
           height="35"
           class="inputClass"
@@ -48,6 +52,7 @@
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Description </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6" class="mt-5">
         <v-textarea
+          v-model="rewardDescription"
           height="80"
           :no-resize="false"
           solo
@@ -58,16 +63,26 @@
     <hr class="border" />
     <v-row class="align-center pa-1 inputDiv">
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Image </label> *</v-col>
+
       <v-col cols="6" lg="9" xs="6" sm="6">
-        <v-avatar class="pa-1">
-          <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+        <v-avatar class="pa-1 mediaImage">
+          <img
+            :src="GetMediaCollectionData.mediaImage"
+            v-if="GetMediaCollectionData.mediaImage"
+          />
         </v-avatar>
-        <v-btn small class="ml-2" v-if="changeCollection == false"
+        <v-btn
+          small
+          class="ml-2"
+          v-if="!GetMediaCollectionData.mediaImage"
+          @click="searchCollection"
           >Search Collection</v-btn
         >
-        <span v-if="changeCollection">
-          <v-btn small class="ml-2">Change</v-btn>
-          <v-btn small class="ml-2">Remove</v-btn>
+        <span v-if="GetMediaCollectionData.mediaImage">
+          <v-btn small class="ml-2" @click="searchCollection">Change</v-btn>
+          <v-btn small class="ml-2" @click="removeImageCollection"
+            >Remove</v-btn
+          >
         </span>
       </v-col>
     </v-row>
@@ -77,22 +92,24 @@
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-select
           :items="actionType"
+          v-model="rewardActionType"
           height="35"
           flat
           class="inputClass"
           :dense="true"
           label="Please select one"
           solo
+          @change="eventSystem"
         ></v-select>
       </v-col>
     </v-row>
     <hr class="border" />
-    <v-row class="align-center pa-1 inputDiv">
+    <v-row class="align-center pa-1 inputDiv" v-if="GetSystemEvent">
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Action </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-flex>
-          <h4>First Stage</h4>
-          <p>First Finshed stage</p>
+          <h4>{{ GetSystemEvent.title }}</h4>
+          <p>{{ GetSystemEvent.description }}</p>
           <v-btn small outlined>Chnage</v-btn>
         </v-flex>
       </v-col>
@@ -102,6 +119,7 @@
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Points </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
+          v-model="rewardExperice"
           label="experience points"
           height="35"
           class="inputClass"
@@ -124,6 +142,8 @@
         <v-col cols="6" lg="3" xs="6" sm="6"><label>Prize </label> *</v-col>
         <v-col cols="6" lg="9" xs="6" sm="6">
           <v-text-field
+            v-model="rewardPrizeTitle"
+            type="number"
             label="Prize title"
             height="35"
             class="inputClass"
@@ -141,6 +161,7 @@
         >
         <v-col cols="6" lg="9" xs="6" sm="6" class="mt-5">
           <v-textarea
+            v-model="rewardPrizeDescription"
             height="80"
             no-resize="false"
             solo
@@ -153,19 +174,44 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   data() {
     return {
+      createReward: false,
       viewPrize: false,
       changeCollection: true,
-      active: true,
+      rewardStatus: true,
       prize: false,
       actionType: ['System Event', 'Trail'],
+      rewardTitle : "",
+      rewardSubTitle : "",
+      rewardDescription : "",
     }
+  },
+  computed: {
+    ...mapGetters('store', ['GetMediaCollectionData', 'GetSystemEvent']),
+  },
+  methods: {
+    ...mapMutations('store', ['CLEAR_MEDIA_COLLECTION']),
+    removeImageCollection() {
+      this.CLEAR_MEDIA_COLLECTION()
+    },
+    searchCollection() {
+      this.$emit('collectionSearch')
+    },
+    eventSystem() {
+      this.$emit('systemEvent')
+      this.createReward = true
+    },
   },
 }
 </script>
 <style lang="scss" scoped>
+.mediaImage {
+  border: 2px solid #e0dcdc;
+  background-color: #f5f0f0;
+}
 .borderMain {
   border: 0.3px solid #e8e8e8;
   height: 1px;
