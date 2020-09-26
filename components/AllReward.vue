@@ -11,20 +11,40 @@
           <th width="10%" class="text-left"></th>
         </tr>
       </thead>
+      <tbody v-if="rewardData.length == 0">
+        <tr  class="record" text-center>
+         <td colspan="7">There are no Reward</td>
+        </tr>
+      </tbody>
       <tbody>
-        <tr v-for="item in rewardData" :key="item.reward_id" class="record">
-          <td><img :src="item.media.url" width="20px" /></td>
+        <tr v-for="item in rewardData" :key="item.id" class="record">
+          <td><img :src="item.media.url" width="50px" /></td>
           <td>{{ item.title }}</td>
-          <td>{{ item.prize }}</td>
+          <td>
+          <v-icon color="green" v-if="item.prize" >mdi-checkbox-marked-circle</v-icon>
+          <v-icon  color="red"  v-if="!item.prize" >mdi-cancel</v-icon>
+             </td>
           <td>{{ item.experience }}</td>
-          <td>{{ item.active }}</td>
+          <td>
+             <v-icon color="green" v-if="item.active" >mdi-checkbox-marked-circle</v-icon>
+          <v-icon  color="red"  v-if="!item.active" >mdi-cancel</v-icon>
+             </td>
           <td>
             <v-btn>Edit</v-btn>
-            <v-btn>Delete</v-btn>
+            <v-btn @click="deleteReward(item.id)">Delete</v-btn>
           </td>
         </tr>
       </tbody>
     </template>
+ 
+    <v-snackbar
+      class="mb-5"
+      v-model="resultSnackbar"
+      :right="'right'"
+      color="red"
+    >
+      {{ message }}
+    </v-snackbar>
   </v-simple-table>
 </template>
 
@@ -34,6 +54,8 @@ import config from '~/config/config.global'
 export default {
   data() {
     return {
+      resultSnackbar: false,
+      message: '',
       rewardData: [],
     }
   },
@@ -43,7 +65,21 @@ export default {
   methods: {
     async viewAllReward() {
       const res = await this.$axios.get(config.rewardCustomer.url)
-      this.rewardData = res.data
+      this.rewardData = res.data;
+    },
+    async deleteReward(rewardID) {
+      const result = await this.$axios.delete(
+        config.rewardCustomer.url + '/' + rewardID
+      )
+      if (result.status == 204) {
+        this.message = 'Delete Reward Sucessfully'
+        this.resultSnackbar = true
+
+        this.viewAllReward()
+      } else {
+        this.message = result.message
+        this.resultSnackbar = true
+      }
     },
   },
 }
@@ -51,9 +87,9 @@ export default {
 <style lang="scss" scoped>
 .header {
   background-color: #dddddd;
-  height: 25px; 
+  height: 25px;
 }
-.record{
+.record {
   padding: 10px;
 }
 </style>

@@ -180,11 +180,11 @@
     </v-flex>
     <v-snackbar
       class="mb-5"
-      v-model="resultSnackbar"     
+      v-model="resultSnackbar"
       :right="'right'"
       color="green"
     >
-      Sucessfully Create Reward
+      {{ message }}
     </v-snackbar>
   </div>
 </template>
@@ -195,7 +195,8 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   data() {
     return {
-      resultSnackbar: true,
+      message: '',
+      resultSnackbar: false,
       createReward: false,
       viewPrize: false,
       rewardStatus: true,
@@ -233,6 +234,8 @@ export default {
       'SET_REWARD_POINTS',
       'SET_REWARD_PRIZE_TITLE',
       'SET_REWARD_PRIZE_DESCRIPTION',
+      'CLEAR_MEDIA_COLLECTION',
+      'CLEAR_SYSTEM_EVENT',
     ]),
     removeImageCollection() {
       this.CLEAR_MEDIA_COLLECTION()
@@ -271,12 +274,20 @@ export default {
           experience: this.rewardPoints,
           prize: this.prizeStatus,
           prize_title: this.rewardPrizeTitle,
-          prize_descriptio: this.rewardPrizeDescription,
+          prize_description: this.rewardPrizeDescription,
         }
-        console.log(reqBody)
-        var result = await this.$axios.post(config.rewardCustomer.url, reqBody);
 
-        console.log(result)
+        var result = await this.$axios.post(config.rewardCustomer.url, reqBody)
+
+        if (result.status == 200) {
+          this.message = 'Sucessfully Create Reward'
+          this.resultSnackbar = true
+        } else {
+          this.message = 'Something Wrong'
+          this.resultSnackbar = true
+        }
+        this.CLEAR_MEDIA_COLLECTION()
+        this.CLEAR_SYSTEM_EVENT()
       } catch (ex) {
         console.log(ex)
       }

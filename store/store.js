@@ -56,6 +56,9 @@ const mutations = {
   CLEAR_MEDIA_COLLECTION(state) {
     state.mediaCollection = ''
   },
+  CLEAR_SYSTEM_EVENT(state){
+    state.systemEventData = '';
+  }
 }
 
 // Action
