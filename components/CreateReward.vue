@@ -1,6 +1,6 @@
 <template>
-  <div class="pl-5" style="height: 1000px">
-    <v-row class="createReward d-flex align-center pa-4">
+  <div class="pa-5 createReward" style="height: 900px" >
+    <v-row class=" d-flex align-center pa-4">
       <h4 class="mr-auto">Create Reward</h4>
 
       <v-btn
@@ -314,6 +314,7 @@ export default {
 }
 .createReward {
   background-color: #ffff;
+  border:2px solid #dddddd;
 }
 .inputDiv label {
   font-size: 14px;

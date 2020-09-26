@@ -1,8 +1,8 @@
 <template>
   <v-app id="page">
   
-      <v-container  fluid class="pa-0"  >
-        <v-card class="d-flex  pa-5" flat tile>
+      <v-container  fluid class="pa-0" >
+        <v-card class="d-flex pa-4 toolbar " flat tile >
           <h2 class="mr-auto" to="/" >Reward Core</h2>
           <v-btn
             class="ml-auto primary"
@@ -35,3 +35,9 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.toolbar{
+  // border-bottom: 2px solid #dddddd;
+  background-color: #dddddd;
+}
+</style>

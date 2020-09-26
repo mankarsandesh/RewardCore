@@ -3,17 +3,17 @@
     <template v-slot:default>
       <thead>
         <tr class="header">
-          <th width="10%" class="text-left">Image</th>
-          <th width="50%" class="text-left">Title</th>
-          <th width="10%" class="text-left">Prize</th>
-          <th width="10%" class="text-left">ExP</th>
-          <th width="10%" class="text-left">Status</th>
+          <th width="5%" class="text-left">IMAGE</th>
+          <th width="50%" class="text-left">TITLE</th>
+          <th width="10%" class="text-left">PIRZE</th>
+          <th width="10%" class="text-left">EXP</th>
+          <th width="10%" class="text-left">STATUS</th>
           <th width="10%" class="text-left"></th>
         </tr>
       </thead>
       <tbody v-if="rewardData.length == 0">
-        <tr  class="record" text-center>
-         <td colspan="7">There are no Reward</td>
+        <tr class="record" text-center>
+          <td colspan="7">There are no Reward</td>
         </tr>
       </tbody>
       <tbody>
@@ -21,22 +21,28 @@
           <td><img :src="item.media.url" width="50px" /></td>
           <td>{{ item.title }}</td>
           <td>
-          <v-icon color="green" v-if="item.prize" >mdi-checkbox-marked-circle</v-icon>
-          <v-icon  color="red"  v-if="!item.prize" >mdi-cancel</v-icon>
-             </td>
+            <v-icon color="green" v-if="item.prize"
+              >mdi-checkbox-marked-circle</v-icon
+            >
+            <v-icon color="red" v-if="!item.prize">mdi-close-circle</v-icon>
+          </td>
           <td>{{ item.experience }}</td>
           <td>
-             <v-icon color="green" v-if="item.active" >mdi-checkbox-marked-circle</v-icon>
-          <v-icon  color="red"  v-if="!item.active" >mdi-cancel</v-icon>
-             </td>
+            <v-icon color="green" v-if="item.active"
+              >mdi-checkbox-marked-circle</v-icon
+            >
+            <v-icon color="red" v-if="!item.active">mdi-cancel</v-icon>
+          </td>
           <td>
-            <v-btn>Edit</v-btn>
-            <v-btn @click="deleteReward(item.id)">Delete</v-btn>
+            <v-icon color="grey">mdi-pencil</v-icon>
+            <v-icon color="grey" @click="deleteReward(item.id)"
+              >mdi-delete</v-icon
+            >
           </td>
         </tr>
       </tbody>
     </template>
- 
+
     <v-snackbar
       class="mb-5"
       v-model="resultSnackbar"
@@ -65,7 +71,7 @@ export default {
   methods: {
     async viewAllReward() {
       const res = await this.$axios.get(config.rewardCustomer.url)
-      this.rewardData = res.data;
+      this.rewardData = res.data
     },
     async deleteReward(rewardID) {
       const result = await this.$axios.delete(
@@ -86,7 +92,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header {
-  background-color: #dddddd;
+  background-color: #d0dbe3;
   height: 25px;
 }
 .record {
