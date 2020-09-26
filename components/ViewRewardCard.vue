@@ -1,20 +1,27 @@
 <template>
-  <v-container fill-height class="rewardCard" >
-    <v-col cols="12" >
-      <v-row align="center" justify="center" >
-        <div 
+  <v-container fill-height class="rewardCard">
+    <v-col cols="12">
+      <v-row align="center" justify="center">
+        <div
           v-bind:class="flipped ? 'flip-container flipped' : 'flip-container'"
         >
-          <div class="flipper" >
+          <div class="flipper">
             <v-card class="front" elevation="4">
               <slot name="front">
                 <v-flex class="pa-2" v-on:click="flipped = true">
-                  <v-img
+                  <!-- <v-img
                     class="rounded-circle justify-center ml-auto"
                     height="30"
                     width="30"
                     :src="GetMediaCollectionData.mediaImage"
-                  />
+                  /> -->
+                  <v-icon
+                    class="rounded-circle justify-center float-right ml-auto"
+                    small
+                  
+                    color="blue-grey darken-2"
+                    >mdi-call-split</v-icon
+                  >
                 </v-flex>
                 <v-card-text class="justify-center text-center">
                   <v-img
@@ -22,20 +29,22 @@
                     style="margin: 0 auto"
                     height="40"
                     width="40"
-                  :src="GetMediaCollectionData.mediaImage"
+                    :src="GetMediaCollectionData.mediaImage"
                   />
-                  <h4 class="mt-5 rewardTitle">Testing Reward</h4>
+                  <h4 class="mt-5 rewardTitle">{{ GetRewardTitle }}</h4>
                   <v-flex class="mt-5 rewardSubtitle">
-                    Testing Subtitle
+                    {{ GetRewardSubtitle }}
                   </v-flex>
-                  <v-flex class="mt-1 rewardPoints"> 100 Points</v-flex>
+                  <v-flex class="mt-1 rewardPoints">
+                    {{ GetRewardPoints }}
+                  </v-flex>
                 </v-card-text>
-                <v-flex class="rewardPrize pa-3 text-center">
-                  Text Prize
+                <v-flex class="rewardPrize pa-3 text-center" v-if="GetRewardPrizeTitle">
+                  {{ GetRewardPrizeTitle }}
                 </v-flex>
               </slot>
             </v-card>
-            <v-card class="back"  elevation="4">
+            <v-card class="back" elevation="4">
               <v-flex class="pa-2" v-on:click="flipped = false">
                 <span class="float-left">Date</span>
                 <span class="float-right">
@@ -43,16 +52,19 @@
                     class="rounded-circle"
                     height="30"
                     width="30"
-                   :src="GetMediaCollectionData.mediaImage"
+                    :src="GetMediaCollectionData.mediaImage"
                   />
                 </span>
               </v-flex>
-              <v-flex class="mt-3 rewardDescription"
-                >This is Description</v-flex
-              >
+              <v-flex class="mt-3 rewardDescription">{{
+                GetRewardDescription
+              }}</v-flex>
 
-              <v-flex class="rewardPrizeDetails justify-center text-center">
-                Testing Description
+              <v-flex
+                class="rewardPrizeDetails justify-center text-center"
+                v-if="GetRewardPrizeDescription"
+              >
+                {{ GetRewardPrizeDescription }}
               </v-flex>
             </v-card>
           </div>
@@ -70,9 +82,18 @@ export default {
     return {
       flipped: false,
     }
-  }, 
-   computed: {
-    ...mapGetters('store', ['GetMediaCollectionData', 'GetSystemEvent']),
+  },
+  computed: {
+    ...mapGetters('store', [
+      'GetMediaCollectionData',
+      'GetSystemEvent',
+      'GetRewardTitle',
+      'GetRewardSubtitle',
+      'GetRewardDescription',
+      'GetRewardPoints',
+      'GetRewardPrizeTitle',
+      'GetRewardPrizeDescription',
+    ]),
   },
 }
 </script>
@@ -89,6 +110,7 @@ export default {
   color: #fff;
   font-size: 14px;
   padding-top: 50px;
+  width: 100%;
 }
 .rewardPrize {
   color: #fff;
@@ -105,8 +127,8 @@ export default {
   color: green;
 }
 .rewardCard {
-height: 100%;
-  background-color: #C2C2C3;
+  height: 100%;
+  background-color: #c2c2c3;
 }
 i.frontFlipBtn,
 i.backFlipBtn {

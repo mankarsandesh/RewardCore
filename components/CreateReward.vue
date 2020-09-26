@@ -29,6 +29,7 @@
           :dense="true"
           flat
           solo
+          @input="sendRewardInfo('title')"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -44,6 +45,7 @@
           :dense="true"
           flat
           solo
+           @input="sendRewardInfo('subtitle')"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -57,6 +59,7 @@
           :no-resize="false"
           solo
           label="description"
+          @input="sendRewardInfo('description')"
         ></v-textarea>
       </v-col>
     </v-row>
@@ -119,13 +122,14 @@
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Points </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
-          v-model="rewardExperice"
+          v-model="rewardPoints"
           label="experience points"
           height="35"
           class="inputClass"
           :dense="true"
           flat
           solo
+          @input="sendRewardInfo('rewardPoints')"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -142,14 +146,14 @@
         <v-col cols="6" lg="3" xs="6" sm="6"><label>Prize </label> *</v-col>
         <v-col cols="6" lg="9" xs="6" sm="6">
           <v-text-field
-            v-model="rewardPrizeTitle"
-            type="number"
+            v-model="rewardPrizeTitle"           
             label="Prize title"
             height="35"
             class="inputClass"
             :dense="true"
             flat
             solo
+            @input="sendRewardInfo('rewardPrizeTitle')"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -166,6 +170,7 @@
             no-resize="false"
             solo
             label="Prize description"
+            @input="sendRewardInfo('rewardPrizeDescription')"
           ></v-textarea>
         </v-col>
       </v-row>
@@ -187,13 +192,21 @@ export default {
       rewardTitle : "",
       rewardSubTitle : "",
       rewardDescription : "",
+      rewardExperice : "",
+      rewardActionType : "",
+      rewardPoints : "",
+      rewardPrizeTitle : "",
+      rewardPrizeDescription : ""
     }
   },
   computed: {
-    ...mapGetters('store', ['GetMediaCollectionData', 'GetSystemEvent']),
+    ...mapGetters('store', ['GetMediaCollectionData', 'GetSystemEvent','GetRewardTitle','GetRewardSubtitle']),
+  },
+  mounted(){
+    // this.rewardTitle = this.GetRewardTitle;
   },
   methods: {
-    ...mapMutations('store', ['CLEAR_MEDIA_COLLECTION']),
+    ...mapMutations('store', ['CLEAR_MEDIA_COLLECTION','SET_REWARD_TITLE','SET_REWARD_SUBTITLE','SET_REWARD_DESCRIPTION','SET_REWARD_POINTS','SET_REWARD_PRIZE_TITLE','SET_REWARD_PRIZE_DESCRIPTION']),
     removeImageCollection() {
       this.CLEAR_MEDIA_COLLECTION()
     },
@@ -204,7 +217,22 @@ export default {
       this.$emit('systemEvent')
       this.createReward = true
     },
-  },
+    sendRewardInfo(type){
+      if (type == 'title'){
+        this.SET_REWARD_TITLE(this.rewardTitle);
+      }else if(type == 'subtitle'){
+        this.SET_REWARD_SUBTITLE(this.rewardSubTitle);
+      }else if(type == 'description'){
+        this.SET_REWARD_DESCRIPTION(this.rewardDescription);
+      }else if(type == 'rewardPoints'){
+        this.SET_REWARD_POINTS(this.rewardPoints);
+      }else if(type == 'rewardPrizeTitle'){
+        this.SET_REWARD_PRIZE_TITLE(this.rewardPrizeTitle);
+      }else if(type == 'rewardPrizeDescription'){
+        this.SET_REWARD_PRIZE_DESCRIPTION(this.rewardPrizeDescription);
+      }
+    } 
+  }
 }
 </script>
 <style lang="scss" scoped>

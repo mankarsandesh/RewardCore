@@ -2,7 +2,7 @@
   <v-app id="page">
   
       <v-container  fluid class="pa-0"  >
-        <!-- <v-card class="d-flex  pa-5" flat tile>
+        <v-card class="d-flex  pa-5" flat tile>
           <h2 class="mr-auto" to="/" >Reward Core</h2>
           <v-btn
             class="ml-auto primary"
@@ -20,7 +20,7 @@
           >
             View Reward</v-btn
           >
-        </v-card> -->
+        </v-card>
         <nuxt />
       </v-container>
     
