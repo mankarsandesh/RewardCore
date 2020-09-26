@@ -3,7 +3,11 @@
     <v-row class="createReward d-flex align-center pa-4">
       <h4 class="mr-auto">Create Reward</h4>
 
-      <v-btn class="ml-auto text-white primary" small :disabled="!createReward"
+      <v-btn
+        class="ml-auto text-white primary"
+        small
+        :disabled="!createReward"
+        @click="createRewardData"
         >Create</v-btn
       >
     </v-row>
@@ -45,7 +49,7 @@
           :dense="true"
           flat
           solo
-           @input="sendRewardInfo('subtitle')"
+          @input="sendRewardInfo('subtitle')"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -137,16 +141,16 @@
     <v-row class="align-center inputDiv">
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Prize </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
-        <v-switch v-model="prize" height="0" color="primary"></v-switch>
+        <v-switch v-model="prizeStatus" height="0" color="primary"></v-switch>
       </v-col>
     </v-row>
     <hr class="border" />
-    <v-flex v-if="prize">
+    <v-flex v-if="prizeStatus">
       <v-row class="align-center inputDiv">
         <v-col cols="6" lg="3" xs="6" sm="6"><label>Prize </label> *</v-col>
         <v-col cols="6" lg="9" xs="6" sm="6">
           <v-text-field
-            v-model="rewardPrizeTitle"           
+            v-model="rewardPrizeTitle"
             label="Prize title"
             height="35"
             class="inputClass"
@@ -167,7 +171,6 @@
           <v-textarea
             v-model="rewardPrizeDescription"
             height="80"
-            no-resize="false"
             solo
             label="Prize description"
             @input="sendRewardInfo('rewardPrizeDescription')"
@@ -175,38 +178,62 @@
         </v-col>
       </v-row>
     </v-flex>
+    <v-snackbar
+      class="mb-5"
+      v-model="resultSnackbar"     
+      :right="'right'"
+      color="green"
+    >
+      Sucessfully Create Reward
+    </v-snackbar>
   </div>
 </template>
 
 <script>
+import config from '~/config/config.global'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   data() {
     return {
+      resultSnackbar: true,
       createReward: false,
       viewPrize: false,
-      changeCollection: true,
       rewardStatus: true,
-      prize: false,
+
+      rewardTitle: '',
+      rewardSubTitle: '',
+      rewardDescription: '',
+      changeCollection: true,
       actionType: ['System Event', 'Trail'],
-      rewardTitle : "",
-      rewardSubTitle : "",
-      rewardDescription : "",
-      rewardExperice : "",
-      rewardActionType : "",
-      rewardPoints : "",
-      rewardPrizeTitle : "",
-      rewardPrizeDescription : ""
+      rewardExperice: '',
+      rewardActionType: '',
+      rewardPoints: '',
+      prizeStatus: false,
+      rewardPrizeTitle: '',
+      rewardPrizeDescription: '',
     }
   },
   computed: {
-    ...mapGetters('store', ['GetMediaCollectionData', 'GetSystemEvent','GetRewardTitle','GetRewardSubtitle']),
+    ...mapGetters('store', [
+      'GetMediaCollectionData',
+      'GetSystemEvent',
+      'GetRewardTitle',
+      'GetRewardSubtitle',
+    ]),
   },
-  mounted(){
+  mounted() {
     // this.rewardTitle = this.GetRewardTitle;
   },
   methods: {
-    ...mapMutations('store', ['CLEAR_MEDIA_COLLECTION','SET_REWARD_TITLE','SET_REWARD_SUBTITLE','SET_REWARD_DESCRIPTION','SET_REWARD_POINTS','SET_REWARD_PRIZE_TITLE','SET_REWARD_PRIZE_DESCRIPTION']),
+    ...mapMutations('store', [
+      'CLEAR_MEDIA_COLLECTION',
+      'SET_REWARD_TITLE',
+      'SET_REWARD_SUBTITLE',
+      'SET_REWARD_DESCRIPTION',
+      'SET_REWARD_POINTS',
+      'SET_REWARD_PRIZE_TITLE',
+      'SET_REWARD_PRIZE_DESCRIPTION',
+    ]),
     removeImageCollection() {
       this.CLEAR_MEDIA_COLLECTION()
     },
@@ -217,22 +244,44 @@ export default {
       this.$emit('systemEvent')
       this.createReward = true
     },
-    sendRewardInfo(type){
-      if (type == 'title'){
-        this.SET_REWARD_TITLE(this.rewardTitle);
-      }else if(type == 'subtitle'){
-        this.SET_REWARD_SUBTITLE(this.rewardSubTitle);
-      }else if(type == 'description'){
-        this.SET_REWARD_DESCRIPTION(this.rewardDescription);
-      }else if(type == 'rewardPoints'){
-        this.SET_REWARD_POINTS(this.rewardPoints);
-      }else if(type == 'rewardPrizeTitle'){
-        this.SET_REWARD_PRIZE_TITLE(this.rewardPrizeTitle);
-      }else if(type == 'rewardPrizeDescription'){
-        this.SET_REWARD_PRIZE_DESCRIPTION(this.rewardPrizeDescription);
+    sendRewardInfo(type) {
+      if (type == 'title') {
+        this.SET_REWARD_TITLE(this.rewardTitle)
+      } else if (type == 'subtitle') {
+        this.SET_REWARD_SUBTITLE(this.rewardSubTitle)
+      } else if (type == 'description') {
+        this.SET_REWARD_DESCRIPTION(this.rewardDescription)
+      } else if (type == 'rewardPoints') {
+        this.SET_REWARD_POINTS(this.rewardPoints)
+      } else if (type == 'rewardPrizeTitle') {
+        this.SET_REWARD_PRIZE_TITLE(this.rewardPrizeTitle)
+      } else if (type == 'rewardPrizeDescription') {
+        this.SET_REWARD_PRIZE_DESCRIPTION(this.rewardPrizeDescription)
       }
-    } 
-  }
+    },
+    async createRewardData() {
+      try {
+        var reqBody = {
+          reward_id: this.GetSystemEvent.id,
+          media_id: this.GetMediaCollectionData.mediaId,
+          active: this.rewardStatus,
+          title: this.rewardTitle,
+          subtitle: this.rewardSubTitle,
+          description: this.rewardDescription,
+          experience: this.rewardPoints,
+          prize: this.prizeStatus,
+          prize_title: this.rewardPrizeTitle,
+          prize_descriptio: this.rewardPrizeDescription,
+        }
+        console.log(reqBody)
+        var result = await this.$axios.post(config.rewardCustomer.url, reqBody);
+
+        console.log(result)
+      } catch (ex) {
+        console.log(ex)
+      }
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>

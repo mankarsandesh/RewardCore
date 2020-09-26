@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import config from '~/config/config.global'
+import config from '~/config/config.global';
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 export default {
   data() {
