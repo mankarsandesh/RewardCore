@@ -72,6 +72,8 @@ const mutations = {
     state.rewardPoints= '';
     state.rewardPrizeTitle= '';
     state.rewardPrizeDescription= '';
+    state.mediaCollection = '';
+    state.systemEventData = '';
   }
 }
 

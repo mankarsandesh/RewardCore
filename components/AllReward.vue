@@ -68,12 +68,18 @@ export default {
     }
   },
   created() {
+    // View all Reward Data
     this.viewAllReward()
   },
   methods: {
+    // View all Reward Data
     async viewAllReward() {
-      const res = await this.$axios.get(config.rewardCustomer.url)
-      this.rewardData = res.data
+      try {
+        const res = await this.$axios.get(config.rewardCustomer.url)
+        this.rewardData = res.data
+      } catch (ex) {
+        console.log(ex)
+      }
     },
     //Edit Reward
     async editReward(rewardID) {
@@ -81,18 +87,21 @@ export default {
     },
     // Delete Reward
     async deleteReward(rewardID) {
-      const result = await this.$axios.delete(
-        config.rewardCustomer.url + '/' + rewardID
-      )
-      console.log(result)
-      if (result.status == 204) {
-        this.message = 'Delete Reward Sucessfully'
-        this.resultColor = 'red'
-        this.resultSnackbar = true
-        this.viewAllReward()
-      } else {
-        this.message = result.message
-        this.resultSnackbar = true
+      try {
+        const result = await this.$axios.delete(
+          config.rewardCustomer.url + '/' + rewardID
+        );        
+        if (result.status == 204) {
+          this.message = 'Delete Reward Sucessfully'
+          this.resultColor = 'red'
+          this.resultSnackbar = true
+          this.viewAllReward()
+        } else {
+          this.message = result.message
+          this.resultSnackbar = true
+        }
+      } catch (ex) {
+        console.log(ex)
       }
     },
   },
