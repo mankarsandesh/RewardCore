@@ -34,7 +34,9 @@
             <v-icon color="red" v-if="!item.active">mdi-cancel</v-icon>
           </td>
           <td>
-            <v-icon color="grey">mdi-pencil</v-icon>
+            <v-icon color="grey" @click="editReward(item.id)"
+              >mdi-pencil</v-icon
+            >
             <v-icon color="grey" @click="deleteReward(item.id)"
               >mdi-delete</v-icon
             >
@@ -43,12 +45,7 @@
       </tbody>
     </template>
 
-      <v-snackbar
-      class="mb-5"
-     
-      :right="'right'"
-      color="green"
-    >
+    <v-snackbar class="mb-5" :right="'right'" color="green">
       sasasas
     </v-snackbar>
   </v-simple-table>
@@ -73,6 +70,11 @@ export default {
       const res = await this.$axios.get(config.rewardCustomer.url)
       this.rewardData = res.data
     },
+    //Edit Reward
+    async editReward(rewardID) {
+      this.$router.push(`editReward/${rewardID}`)
+    },
+    // Delete Reward
     async deleteReward(rewardID) {
       const result = await this.$axios.delete(
         config.rewardCustomer.url + '/' + rewardID
@@ -80,7 +82,6 @@ export default {
       if (result.status == 204) {
         this.message = 'Delete Reward Sucessfully'
         this.resultSnackbar = true
-        console.log("Deelete");
         this.viewAllReward()
       } else {
         this.message = result.message

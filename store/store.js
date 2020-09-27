@@ -1,6 +1,6 @@
-//States
+// States
 const state = () => ({
-  mediaCollection: [], // Media Collection
+  mediaCollection: [],
   systemEventData: [],
   rewardTitle: 'Reward Title',
   rewardSubtitle: 'Reward Subtitle',
@@ -10,37 +10,41 @@ const state = () => ({
   rewardPrizeDescription: '',
 })
 
-//Getters
+// Getters
 const getters = {
-  // Get Media Collection Data
-  GetMediaCollectionData: (state) => state.mediaCollection,
-  // Get System Event Data
-  GetSystemEvent: (state) => state.systemEventData,
-  GetRewardTitle: (state) => state.rewardTitle,
-  GetRewardSubtitle: (state) => state.rewardSubtitle,
-  GetRewardDescription: (state) => state.rewardDescription,
-  GetRewardPoints: (state) => state.rewardPoints,
-  GetRewardPrizeTitle: (state) => state.rewardPrizeTitle,
-  GetRewardPrizeDescription: (state) => state.rewardPrizeDescription,
+  GetMediaCollectionData: (state) => state.mediaCollection, // Get Media Collection Data
+  GetSystemEvent: (state) => state.systemEventData, // Get System Event Data
+  GetRewardTitle: (state) => state.rewardTitle, // Get Reward Title
+  GetRewardSubtitle: (state) => state.rewardSubtitle, // get Reward Subtitle
+  GetRewardDescription: (state) => state.rewardDescription, // get Reward Description
+  GetRewardPoints: (state) => state.rewardPoints, // Get Reward Points
+  GetRewardPrizeTitle: (state) => state.rewardPrizeTitle, // Get reward Prize Title
+  GetRewardPrizeDescription: (state) => state.rewardPrizeDescription, // Get Reward Prize Description
 }
 
 // Mutation
 const mutations = {
+  // Set Reward Title
   SET_REWARD_TITLE(state, payload) {
     state.rewardTitle = payload
   },
+  // Set Reward SuTitle
   SET_REWARD_SUBTITLE(state, payload) {
     state.rewardSubtitle = payload
   },
+  // Set Reward Description
   SET_REWARD_DESCRIPTION(state, payload) {
     state.rewardDescription = payload
   },
+  // Set Reward Reward Points
   SET_REWARD_POINTS(state, payload) {
     state.rewardPoints = payload
   },
+  // Set Reward Prize Title
   SET_REWARD_PRIZE_TITLE(state, payload) {
     state.rewardPrizeTitle = payload
   },
+  // Set Reward Prize Description
   SET_REWARD_PRIZE_DESCRIPTION(state, payload) {
     state.rewardPrizeDescription = payload
   },
@@ -56,43 +60,43 @@ const mutations = {
   CLEAR_MEDIA_COLLECTION(state) {
     state.mediaCollection = ''
   },
-  CLEAR_SYSTEM_EVENT(state){
-    state.systemEventData = '';
-  }
+  // Clear System Event Data
+  CLEAR_SYSTEM_EVENT(state) {
+    state.systemEventData = ''
+  },
 }
 
 // Action
 const actions = {
-  // Set Media Collection Data
+  // Set Reward Title
   setRewardTitle({ commit }, payload) {
     commit('SET_REWARD_TITLE', payload)
   },
-  // Set Media Collection Data
+  // Set Reward Subtitle
   setRewardSubtitle({ commit }, payload) {
     commit('SET_REWARD_SUBTITLE', payload)
   },
-  // Set Media Collection Data
+  // Set Reward Description
   setRewardDescription({ commit }, payload) {
     commit('SET_REWARD_DESCRIPTION', payload)
   },
-  // Set Media Collection Data
+  // Set Reward Points
   setRewardPoints({ commit }, payload) {
     commit('SET_REWARD_POINTS', payload)
   },
-
+  // Set Reward Prize Title Data
   setRewardPrizeTitle({ commit }, payload) {
     commit('SET_REWARD_PRIZE_TITLE', payload)
   },
-
+  // Set Reward Prize Description Data
   setRewardPrizeDescription({ commit }, payload) {
     commit('SET_REWARD_PRIZE_DESCRIPTION', payload)
   },
-
   // Set Media Collection Data
   setMediaCollection({ commit }, payload) {
     commit('SET_MEDIA_COLLECTION', payload)
   },
-  // Set Media Collection Data
+  // Set System Event Data
   setSystemEvent({ commit }, payload) {
     commit('SET_SYSTEM_EVENT', payload)
   },

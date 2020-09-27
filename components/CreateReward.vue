@@ -8,7 +8,7 @@
         small
         :disabled="!createReward"
         @click="createRewardData"
-        >Create</v-btn
+        >{{ buttonText }}</v-btn
       >
     </v-row>
 
@@ -110,14 +110,14 @@
         ></v-select>
       </v-col>
     </v-row>
-    <hr class="border" />
-    <v-row class="align-center pa-1 inputDiv" v-if="GetSystemEvent">
+    <hr class="border" v-if="GetSystemEvent.length != 0" />
+    <v-row class="align-center pa-1 inputDiv" v-if="GetSystemEvent.length != 0">
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Action </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-flex>
           <h4>{{ GetSystemEvent.title }}</h4>
           <p>{{ GetSystemEvent.description }}</p>
-          <v-btn small outlined>Chnage</v-btn>
+          <v-btn small outlined>Chnage </v-btn>
         </v-flex>
       </v-col>
     </v-row>
@@ -196,6 +196,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   data() {
     return {
+      buttonText: 'Create',
       message: '',
       resultSnackbar: false,
       createReward: false,
@@ -226,6 +227,11 @@ export default {
   mounted() {
     // this.rewardTitle = this.GetRewardTitle;
   },
+  created() {
+    if (this.$route.params.id) {
+      this.getRewardInfo()
+    }
+  },
   methods: {
     ...mapMutations('store', [
       'CLEAR_MEDIA_COLLECTION',
@@ -238,6 +244,7 @@ export default {
       'CLEAR_MEDIA_COLLECTION',
       'CLEAR_SYSTEM_EVENT',
     ]),
+    ...mapActions('store', ['setMediaCollection', 'setSystemEvent']),
     removeImageCollection() {
       this.CLEAR_MEDIA_COLLECTION()
     },
@@ -263,6 +270,53 @@ export default {
         this.SET_REWARD_PRIZE_DESCRIPTION(this.rewardPrizeDescription)
       }
     },
+    // Get Reward Info
+    async getRewardInfo() {
+      try {
+        const result = await this.$axios.get(
+          config.rewardCustomer.url + '/' + this.$route.params.id
+        )
+        if (result.status == 200) {
+          console.log(result)
+
+          this.rewardTitle = result.data.title
+          this.rewardSubTitle = result.data.subtitle
+          this.rewardDescription = result.data.description
+          result.data.type == 'event'
+            ? (this.rewardActionType = 'System Event')
+            : (this.rewardActionType = 'Trail')
+          this.rewardPoints = result.data.experience
+          this.prizeStatus = result.data.prize
+          this.rewardPrizeTitle = result.data.prize_title
+          this.rewardPrizeDescription = result.data.prize_description
+
+          this.SET_REWARD_TITLE(result.data.title)
+
+          this.SET_REWARD_SUBTITLE(result.data.subtitle)
+
+          this.SET_REWARD_DESCRIPTION(result.data.description)
+
+          this.SET_REWARD_POINTS(result.data.experience)
+
+          this.SET_REWARD_PRIZE_TITLE(result.data.prize_title)
+
+          this.SET_REWARD_PRIZE_DESCRIPTION(result.data.prize_description)
+
+          const data = {
+            mediaId: result.data.media.id,
+            mediaImage: result.data.media.url,
+          }
+
+          this.setMediaCollection(data)
+          this.setSystemEvent(result.data.reward)
+          this.buttonText = 'Update'
+          this.createReward = true
+        }
+      } catch (ex) {
+        console.log(ex)
+      }
+    },
+    // Create New Reward
     async createRewardData() {
       try {
         var reqBody = {
@@ -277,15 +331,24 @@ export default {
           prize_title: this.rewardPrizeTitle,
           prize_description: this.rewardPrizeDescription,
         }
-
-        var result = await this.$axios.post(config.rewardCustomer.url, reqBody)
+        if (this.$route.params.id) {
+          var result = await this.$axios.put(
+            config.rewardCustomer.url + '/' + this.$route.params.id,
+            reqBody
+          )
+        } else {
+          var result = await this.$axios.post(
+            config.rewardCustomer.url,
+            reqBody
+          )
+        }
         console.log(result)
         if (result.status == 200) {
           this.message = 'Sucessfully Create Reward'
           this.resultSnackbar = true
-          this.CLEAR_MEDIA_COLLECTION();
-          this.CLEAR_SYSTEM_EVENT();
-          window.location.href = "/"
+          this.CLEAR_MEDIA_COLLECTION()
+          this.CLEAR_SYSTEM_EVENT()
+          window.location.href = '/'
         }
         if (result.status_code) {
           this.message = 'Something Wrong'
