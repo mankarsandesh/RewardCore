@@ -9,16 +9,9 @@
             <v-card class="front" elevation="4">
               <slot name="front">
                 <v-flex class="pa-2" v-on:click="flipped = true">
-                  <!-- <v-img
-                    class="rounded-circle justify-center ml-auto"
-                    height="30"
-                    width="30"
-                    :src="GetMediaCollectionData.mediaImage"
-                  /> -->
                   <v-icon
                     class="rounded-circle justify-center float-right ml-auto"
                     small
-                  
                     color="blue-grey darken-2"
                     >mdi-call-split</v-icon
                   >
@@ -39,7 +32,10 @@
                     {{ GetRewardPoints }} Points
                   </v-flex>
                 </v-card-text>
-                <v-flex class="rewardPrize pa-3 text-center" v-if="GetRewardPrizeTitle">
+                <v-flex
+                  class="rewardPrize pa-3 text-center"
+                  v-if="GetRewardPrizeTitle"
+                >
                   {{ GetRewardPrizeTitle }}
                 </v-flex>
               </slot>
@@ -75,9 +71,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
-export default {
-  components: {},
+import { mapGetters } from 'vuex'
+export default { 
   data() {
     return {
       flipped: false,

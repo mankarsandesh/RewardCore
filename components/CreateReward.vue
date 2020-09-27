@@ -236,10 +236,8 @@ export default {
       'GetRewardSubtitle',
     ]),
   },
-  mounted() {
-    // this.rewardTitle = this.GetRewardTitle;
-  },
   created() {
+    // Update Reward Info Store in Vuex 
     if (this.$route.params.id) {
       this.getRewardInfo()
     }
@@ -255,18 +253,23 @@ export default {
       'SET_REWARD_PRIZE_DESCRIPTION',
       'CLEAR_MEDIA_COLLECTION',
       'CLEAR_SYSTEM_EVENT',
+      'CLEAR_ALL_DATA'
     ]),
     ...mapActions('store', ['setMediaCollection', 'setSystemEvent']),
+    // Clear Image COllection
     removeImageCollection() {
       this.CLEAR_MEDIA_COLLECTION()
     },
+    // Search Collection
     searchCollection() {
       this.$emit('collectionSearch')
     },
+    // System event
     eventSystem() {
       this.$emit('systemEvent')
       this.createReward = true
     },
+    // Reward Info Store in vuex
     sendRewardInfo(type) {
       if (type == 'title') {
         this.SET_REWARD_TITLE(this.rewardTitle)
@@ -282,6 +285,7 @@ export default {
         this.SET_REWARD_PRIZE_DESCRIPTION(this.rewardPrizeDescription)
       }
     },
+    //  Reward Status change active or deactive 
     async rewardStatusChange() {
       if (this.rewardStatus == true) {
         var status = 'activate'
@@ -364,7 +368,6 @@ export default {
         this.rewardTitle &&
         this.rewardSubTitle &&
         this.rewardDescription &&
-        this.GetMediaCollectionData.id &&
         this.GetMediaCollectionData.mediaId
       ) {
         try {
@@ -399,11 +402,13 @@ export default {
             this.resultSnackbar = true
             this.CLEAR_MEDIA_COLLECTION()
             this.CLEAR_SYSTEM_EVENT()
+            this.CLEAR_ALL_DATA();
             window.location.href = '/'
           }
           if (result.status_code) {
             this.message = 'Something Wrong'
             this.resultSnackbar = true
+            this.resultColor = 'red'
           }
         } catch (ex) {
           this.message = ex

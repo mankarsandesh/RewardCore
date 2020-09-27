@@ -5,7 +5,7 @@ const state = () => ({
   rewardTitle: 'Reward Title',
   rewardSubtitle: 'Reward Subtitle',
   rewardDescription: '',
-  rewardPoints: '0',
+  rewardPoints: '',
   rewardPrizeTitle: '',
   rewardPrizeDescription: '',
 })
@@ -64,6 +64,15 @@ const mutations = {
   CLEAR_SYSTEM_EVENT(state) {
     state.systemEventData = ''
   },
+  // Clear All State
+  CLEAR_ALL_DATA(state){
+    state.rewardTitle =  'Reward Title';
+    state.rewardSubtitle = 'Reward Subtitle';
+    state.rewardDescription =  '';
+    state.rewardPoints= '';
+    state.rewardPrizeTitle= '';
+    state.rewardPrizeDescription= '';
+  }
 }
 
 // Action

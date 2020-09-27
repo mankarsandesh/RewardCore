@@ -3,7 +3,7 @@
     <template v-slot:default>
       <thead>
         <tr class="header">
-          <th width="5%" class="text-left">IMAGE {{ resultSnackbar }}</th>
+          <th width="5%" class="text-left">IMAGE</th>
           <th width="50%" class="text-left">TITLE</th>
           <th width="10%" class="text-left">PIRZE</th>
           <th width="10%" class="text-left">EXP</th>
@@ -27,7 +27,7 @@
             <v-icon color="red" v-if="!item.prize">mdi-close-circle</v-icon>
           </td>
           <td>{{ item.experience }}</td>
-          <td>          
+          <td>
             <v-icon color="green" v-if="item.active"
               >mdi-checkbox-marked-circle</v-icon
             >
@@ -43,18 +43,15 @@
           </td>
         </tr>
       </tbody>
-         <v-snackbar
-      class="mb-5"
-      v-model="resultSnackbar"
-      :right="'right'"
-      :color="resultColor"
-    >
-      {{ message }}
-    </v-snackbar>
-    
+      <v-snackbar
+        class="mb-5"
+        v-model="resultSnackbar"
+        :right="'right'"
+        :color="resultColor"
+      >
+        {{ message }}
+      </v-snackbar>
     </template>
-
-
   </v-simple-table>
 </template>
 
@@ -65,7 +62,7 @@ export default {
   data() {
     return {
       resultSnackbar: false,
-      resultColor : 'green',
+      resultColor: 'green',
       message: '',
       rewardData: [],
     }
@@ -87,10 +84,10 @@ export default {
       const result = await this.$axios.delete(
         config.rewardCustomer.url + '/' + rewardID
       )
-      console.log(result);
+      console.log(result)
       if (result.status == 204) {
-        this.message = 'Delete Reward Sucessfully';
-        this.resultColor = 'red';
+        this.message = 'Delete Reward Sucessfully'
+        this.resultColor = 'red'
         this.resultSnackbar = true
         this.viewAllReward()
       } else {

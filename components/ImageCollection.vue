@@ -77,8 +77,8 @@
 </template>
 
 <script>
-import config from '~/config/config.global';
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import config from '~/config/config.global'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -90,29 +90,39 @@ export default {
     }
   },
   created() {
+    // View all Image Collection
     this.viewAllImageCollection()
   },
   methods: {
     ...mapActions('store', ['setMediaCollection']),
     async viewAllImageCollection() {
-      const res = await this.$axios.get(config.rewardMedia.url)
-      this.imageCollection = res.data
+      try {
+        const res = await this.$axios.get(config.rewardMedia.url)
+        this.imageCollection = res.data
+      } catch (ex) {
+        console.log(ex)
+      }
     },
+    // Image Collection Set on Vuex
     imageMediaSet(id, image) {
       const data = {
         mediaId: id,
-        mediaImage: image
+        mediaImage: image,
       }
-
       this.setMediaCollection(data)
     },
+    // After Click image Collection
     async clickImageCollection(imageType, categoryName) {
-      const res = await this.$axios.get(
-        config.rewardMedia.url + '/' + imageType
-      )
-      this.categoryName = categoryName
-      this.showCategory = true
-      this.categoryImageCollection = res.data
+      try {
+        const res = await this.$axios.get(
+          config.rewardMedia.url + '/' + imageType
+        )
+        this.categoryName = categoryName
+        this.showCategory = true
+        this.categoryImageCollection = res.data
+      } catch (ex) {
+        console.log(ex)
+      }
     },
   },
 }
@@ -121,7 +131,7 @@ export default {
 .imageCollection {
   background-color: #f3f3f3;
 }
-iamgeCol {
+.iamgeCol {
   background-color: #fff;
 }
 .border {
