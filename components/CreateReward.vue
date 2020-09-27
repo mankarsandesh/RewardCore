@@ -15,7 +15,7 @@
     <hr class="borderMain" />
 
     <v-row class="align-center">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Active </label>  </v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Active </label> </v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-switch
           v-model="rewardStatus"
@@ -28,7 +28,9 @@
 
     <hr class="border" />
     <v-row class="align-center inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Title </label> <span  class="required">*</span></v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"
+        ><label>Title </label> <span class="required">*</span></v-col
+      >
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
           v-model="rewardTitle"
@@ -44,7 +46,9 @@
     </v-row>
     <hr class="border" />
     <v-row class="align-center inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Sub Title </label>  <span  class="required">*</span> </v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"
+        ><label>Sub Title </label> <span class="required">*</span>
+      </v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
           v-model="rewardSubTitle"
@@ -60,7 +64,9 @@
     </v-row>
     <hr class="border" />
     <v-row class="align-center inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Description </label>  <span  class="required">*</span></v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"
+        ><label>Description </label> <span class="required">*</span></v-col
+      >
       <v-col cols="6" lg="9" xs="6" sm="6" class="mt-5">
         <v-textarea
           v-model="rewardDescription"
@@ -74,7 +80,7 @@
     </v-row>
     <hr class="border" />
     <v-row class="align-center pa-1 inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Image </label> </v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Image </label> *</v-col>
 
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-avatar class="pa-1 mediaImage">
@@ -100,7 +106,7 @@
     </v-row>
     <hr class="border" />
     <v-row class="align-center pa-1 inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Action Type </label> </v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Action Type </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-select
           :items="actionType"
@@ -171,8 +177,8 @@
       <hr class="border" />
       <v-row class="align-center inputDiv">
         <v-col cols="6" lg="3" xs="6" sm="6"
-          ><label>Prize Description </label> </v-col
-        >
+          ><label>Prize Description </label>
+        </v-col>
         <v-col cols="6" lg="9" xs="6" sm="6" class="mt-5">
           <v-textarea
             v-model="rewardPrizeDescription"
@@ -203,7 +209,7 @@ export default {
     return {
       buttonText: 'Create',
       message: '',
-      resultColor:'green',
+      resultColor: 'green',
       resultSnackbar: false,
       createReward: false,
       viewPrize: false,
@@ -277,13 +283,11 @@ export default {
       }
     },
     async rewardStatusChange() {
-      console.log(this.rewardStatus)
       if (this.rewardStatus == true) {
         var status = 'activate'
       } else {
         var status = 'deactivate'
       }
-      console.log(status)
       if (this.$route.params.id) {
         try {
           const result = await this.$axios.patch(
@@ -293,14 +297,17 @@ export default {
               '/' +
               status
           )
-          console.log(result)
-          if(result.status == 200){
-            status == 'activate' ? this.resultColor = 'green' :  this.resultColor = 'red'
-            this.message = 'Sucessfully Reward '+status
-            this.resultSnackbar = true;
+          if (result.status == 200) {
+            status == 'activate'
+              ? (this.resultColor = 'green')
+              : (this.resultColor = 'red')
+            this.message = 'Sucessfully Reward ' + status
+            this.resultSnackbar = true
           }
         } catch (ex) {
-          console.log(ex)
+          this.message = ex
+          this.resultSnackbar = true
+          this.resultColor = 'red'
         }
       }
     },
@@ -352,51 +359,67 @@ export default {
     },
     // Create New Reward
     async createRewardData() {
-      try {
-        var reqBody = {
-          reward_id: this.GetSystemEvent.id,
-          media_id: this.GetMediaCollectionData.mediaId,
-          active: this.rewardStatus,
-          title: this.rewardTitle,
-          subtitle: this.rewardSubTitle,
-          description: this.rewardDescription,
-          experience: this.rewardPoints,
-          prize: this.prizeStatus,
-          prize_title: this.rewardPrizeTitle,
-          prize_description: this.rewardPrizeDescription,
-        }
-        if (this.$route.params.id) {
-          var result = await this.$axios.put(
-            config.rewardCustomer.url + '/' + this.$route.params.id,
-            reqBody
-          )
-        } else {
-          var result = await this.$axios.post(
-            config.rewardCustomer.url,
-            reqBody
-          )
-        }      
-        if (result.status == 200) {
-          this.$route.params.id ? this.message = 'Sucessfully Update Reward' : this.message = 'Sucessfully Create Reward'
-          this.resultColor = 'green';
+      // Check all Require Filed
+      if (
+        this.rewardTitle &&
+        this.rewardSubTitle &&
+        this.rewardDescription &&
+        this.GetMediaCollectionData.id &&
+        this.GetMediaCollectionData.mediaId
+      ) {
+        try {
+          var reqBody = {
+            reward_id: this.GetSystemEvent.id,
+            media_id: this.GetMediaCollectionData.mediaId,
+            active: this.rewardStatus,
+            title: this.rewardTitle,
+            subtitle: this.rewardSubTitle,
+            description: this.rewardDescription,
+            experience: this.rewardPoints,
+            prize: this.prizeStatus,
+            prize_title: this.rewardPrizeTitle,
+            prize_description: this.rewardPrizeDescription,
+          }
+          if (this.$route.params.id) {
+            var result = await this.$axios.put(
+              config.rewardCustomer.url + '/' + this.$route.params.id,
+              reqBody
+            )
+          } else {
+            var result = await this.$axios.post(
+              config.rewardCustomer.url,
+              reqBody
+            )
+          }
+          if (result.status == 200) {
+            this.$route.params.id
+              ? (this.message = 'Sucessfully Update Reward')
+              : (this.message = 'Sucessfully Create Reward')
+            this.resultColor = 'green'
+            this.resultSnackbar = true
+            this.CLEAR_MEDIA_COLLECTION()
+            this.CLEAR_SYSTEM_EVENT()
+            window.location.href = '/'
+          }
+          if (result.status_code) {
+            this.message = 'Something Wrong'
+            this.resultSnackbar = true
+          }
+        } catch (ex) {
+          this.message = ex
           this.resultSnackbar = true
-          this.CLEAR_MEDIA_COLLECTION()
-          this.CLEAR_SYSTEM_EVENT()
-          window.location.href = '/'
+          this.resultColor = 'red'
         }
-        if (result.status_code) {
-          this.message = 'Something Wrong'
-          this.resultSnackbar = true
-        }
-      } catch (ex) {
-        console.log(ex)
+      } else {
+        this.message = 'Please Fill all fileds.'
+        this.resultSnackbar = true
+        this.resultColor = 'red'
       }
     },
   },
 }
 </script>
 <style lang="scss" scoped>
-
 .mediaImage {
   border: 2px solid #e0dcdc;
   background-color: #f5f0f0;

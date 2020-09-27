@@ -9,9 +9,6 @@ import AllReward from '~/components/AllReward'
 export default {
   components: {
     AllReward,
-  },
-  data() {
-    return {}
-  },
+  }
 }
 </script>
