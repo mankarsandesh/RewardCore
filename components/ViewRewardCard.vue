@@ -77,7 +77,7 @@ export default {
     return {
       flipped: false,
     }
-  },
+  }, 
   computed: {
     ...mapGetters('store', [
       'GetMediaCollectionData',

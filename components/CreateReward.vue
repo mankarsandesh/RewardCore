@@ -240,6 +240,8 @@ export default {
     // Update Reward Info Store in Vuex 
     if (this.$route.params.id) {
       this.getRewardInfo()
+    }else{
+      this.CLEAR_ALL_DATA();
     }
   },
   methods: {
