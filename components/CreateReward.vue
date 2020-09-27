@@ -15,15 +15,20 @@
     <hr class="borderMain" />
 
     <v-row class="align-center">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Active </label> *</v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Active </label>  </v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
-        <v-switch v-model="rewardStatus" height="0" color="primary"></v-switch>
+        <v-switch
+          v-model="rewardStatus"
+          @change="rewardStatusChange"
+          height="0"
+          color="primary"
+        ></v-switch>
       </v-col>
     </v-row>
 
     <hr class="border" />
     <v-row class="align-center inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Title </label> *</v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Title </label> <span  class="required">*</span></v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
           v-model="rewardTitle"
@@ -39,7 +44,7 @@
     </v-row>
     <hr class="border" />
     <v-row class="align-center inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Sub Title </label> *</v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Sub Title </label>  <span  class="required">*</span> </v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
           v-model="rewardSubTitle"
@@ -55,7 +60,7 @@
     </v-row>
     <hr class="border" />
     <v-row class="align-center inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Description </label> *</v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Description </label>  <span  class="required">*</span></v-col>
       <v-col cols="6" lg="9" xs="6" sm="6" class="mt-5">
         <v-textarea
           v-model="rewardDescription"
@@ -69,7 +74,7 @@
     </v-row>
     <hr class="border" />
     <v-row class="align-center pa-1 inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Image </label> *</v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Image </label> </v-col>
 
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-avatar class="pa-1 mediaImage">
@@ -95,7 +100,7 @@
     </v-row>
     <hr class="border" />
     <v-row class="align-center pa-1 inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Action Type </label> *</v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Action Type </label> </v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-select
           :items="actionType"
@@ -112,7 +117,7 @@
     </v-row>
     <hr class="border" v-if="GetSystemEvent.length != 0" />
     <v-row class="align-center pa-1 inputDiv" v-if="GetSystemEvent.length != 0">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Action </label> *</v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Action </label> </v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-flex>
           <h4>{{ GetSystemEvent.title }}</h4>
@@ -123,7 +128,7 @@
     </v-row>
     <hr class="border" />
     <v-row class="align-center inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Points </label> *</v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Points </label> </v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
           type="number"
@@ -140,7 +145,7 @@
     </v-row>
     <hr class="border" />
     <v-row class="align-center inputDiv">
-      <v-col cols="6" lg="3" xs="6" sm="6"><label>Prize </label> *</v-col>
+      <v-col cols="6" lg="3" xs="6" sm="6"><label>Prize </label> </v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-switch v-model="prizeStatus" height="0" color="primary"></v-switch>
       </v-col>
@@ -148,7 +153,7 @@
     <hr class="border" />
     <v-flex v-if="prizeStatus">
       <v-row class="align-center inputDiv">
-        <v-col cols="6" lg="3" xs="6" sm="6"><label>Prize </label> *</v-col>
+        <v-col cols="6" lg="3" xs="6" sm="6"><label>Prize </label></v-col>
         <v-col cols="6" lg="9" xs="6" sm="6">
           <v-text-field
             v-model="rewardPrizeTitle"
@@ -166,7 +171,7 @@
       <hr class="border" />
       <v-row class="align-center inputDiv">
         <v-col cols="6" lg="3" xs="6" sm="6"
-          ><label>Prize Description </label> *</v-col
+          ><label>Prize Description </label> </v-col
         >
         <v-col cols="6" lg="9" xs="6" sm="6" class="mt-5">
           <v-textarea
@@ -183,7 +188,7 @@
       class="mb-5"
       v-model="resultSnackbar"
       :right="'right'"
-      color="green"
+      :color="resultColor"
     >
       {{ message }}
     </v-snackbar>
@@ -198,6 +203,7 @@ export default {
     return {
       buttonText: 'Create',
       message: '',
+      resultColor:'green',
       resultSnackbar: false,
       createReward: false,
       viewPrize: false,
@@ -270,6 +276,34 @@ export default {
         this.SET_REWARD_PRIZE_DESCRIPTION(this.rewardPrizeDescription)
       }
     },
+    async rewardStatusChange() {
+      console.log(this.rewardStatus)
+      if (this.rewardStatus == true) {
+        var status = 'activate'
+      } else {
+        var status = 'deactivate'
+      }
+      console.log(status)
+      if (this.$route.params.id) {
+        try {
+          const result = await this.$axios.patch(
+            config.rewardCustomer.url +
+              '/' +
+              this.$route.params.id +
+              '/' +
+              status
+          )
+          console.log(result)
+          if(result.status == 200){
+            status == 'activate' ? this.resultColor = 'green' :  this.resultColor = 'red'
+            this.message = 'Sucessfully Reward '+status
+            this.resultSnackbar = true;
+          }
+        } catch (ex) {
+          console.log(ex)
+        }
+      }
+    },
     // Get Reward Info
     async getRewardInfo() {
       try {
@@ -278,7 +312,7 @@ export default {
         )
         if (result.status == 200) {
           console.log(result)
-
+          this.rewardStatus = result.data.active
           this.rewardTitle = result.data.title
           this.rewardSubTitle = result.data.subtitle
           this.rewardDescription = result.data.description
@@ -341,10 +375,10 @@ export default {
             config.rewardCustomer.url,
             reqBody
           )
-        }
-        console.log(result)
+        }      
         if (result.status == 200) {
-          this.message = 'Sucessfully Create Reward'
+          this.$route.params.id ? this.message = 'Sucessfully Update Reward' : this.message = 'Sucessfully Create Reward'
+          this.resultColor = 'green';
           this.resultSnackbar = true
           this.CLEAR_MEDIA_COLLECTION()
           this.CLEAR_SYSTEM_EVENT()
@@ -362,6 +396,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 .mediaImage {
   border: 2px solid #e0dcdc;
   background-color: #f5f0f0;
