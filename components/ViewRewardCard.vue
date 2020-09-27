@@ -36,7 +36,7 @@
                     {{ GetRewardSubtitle }}
                   </v-flex>
                   <v-flex class="mt-1 rewardPoints">
-                    {{ GetRewardPoints }}
+                    {{ GetRewardPoints }} Points
                   </v-flex>
                 </v-card-text>
                 <v-flex class="rewardPrize pa-3 text-center" v-if="GetRewardPrizeTitle">

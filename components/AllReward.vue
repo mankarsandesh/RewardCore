@@ -3,7 +3,7 @@
     <template v-slot:default>
       <thead>
         <tr class="header">
-          <th width="5%" class="text-left">IMAGE</th>
+          <th width="5%" class="text-left">IMAGE {{ resultSnackbar }}</th>
           <th width="50%" class="text-left">TITLE</th>
           <th width="10%" class="text-left">PIRZE</th>
           <th width="10%" class="text-left">EXP</th>
@@ -43,13 +43,13 @@
       </tbody>
     </template>
 
-    <v-snackbar
+      <v-snackbar
       class="mb-5"
-      v-model="resultSnackbar"
+     
       :right="'right'"
-      color="red"
+      color="green"
     >
-      {{ message }}
+      sasasas
     </v-snackbar>
   </v-simple-table>
 </template>
@@ -60,7 +60,7 @@ import config from '~/config/config.global'
 export default {
   data() {
     return {
-      resultSnackbar: false,
+      resultSnackbar: true,
       message: '',
       rewardData: [],
     }
@@ -80,7 +80,7 @@ export default {
       if (result.status == 204) {
         this.message = 'Delete Reward Sucessfully'
         this.resultSnackbar = true
-
+        console.log("Deelete");
         this.viewAllReward()
       } else {
         this.message = result.message

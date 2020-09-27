@@ -1,6 +1,6 @@
 <template>
-  <div class="pa-5 createReward" style="height: 900px" >
-    <v-row class=" d-flex align-center pa-4">
+  <div class="pa-5 createReward" style="height: 900px">
+    <v-row class="d-flex align-center pa-4">
       <h4 class="mr-auto">Create Reward</h4>
 
       <v-btn
@@ -126,6 +126,7 @@
       <v-col cols="6" lg="3" xs="6" sm="6"><label>Points </label> *</v-col>
       <v-col cols="6" lg="9" xs="6" sm="6">
         <v-text-field
+          type="number"
           v-model="rewardPoints"
           label="experience points"
           height="35"
@@ -278,16 +279,18 @@ export default {
         }
 
         var result = await this.$axios.post(config.rewardCustomer.url, reqBody)
-
+        console.log(result)
         if (result.status == 200) {
           this.message = 'Sucessfully Create Reward'
           this.resultSnackbar = true
-        } else {
+          this.CLEAR_MEDIA_COLLECTION();
+          this.CLEAR_SYSTEM_EVENT();
+          window.location.href = "/"
+        }
+        if (result.status_code) {
           this.message = 'Something Wrong'
           this.resultSnackbar = true
         }
-        this.CLEAR_MEDIA_COLLECTION()
-        this.CLEAR_SYSTEM_EVENT()
       } catch (ex) {
         console.log(ex)
       }
@@ -314,7 +317,7 @@ export default {
 }
 .createReward {
   background-color: #ffff;
-  border:2px solid #dddddd;
+  border-right: 2px solid #dddddd;
 }
 .inputDiv label {
   font-size: 14px;

@@ -5,7 +5,7 @@ const state = () => ({
   rewardTitle: 'Reward Title',
   rewardSubtitle: 'Reward Subtitle',
   rewardDescription: '',
-  rewardPoints: '0 Points',
+  rewardPoints: '0',
   rewardPrizeTitle: '',
   rewardPrizeDescription: '',
 })

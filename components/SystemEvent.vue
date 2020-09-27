@@ -13,6 +13,13 @@
               <v-list-item-title v-text="item.description"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item  v-if="allEvent.length == 0">
+            <v-list-item-content>
+              There are no System Event
+            </v-list-item-content>
+          </v-list-item>
+
+
         </v-list-item-group>
       </v-list>
     </v-card>
